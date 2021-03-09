@@ -19,8 +19,8 @@ export abstract class BaseService<T extends Base> {
     this.http.get<ServeurResponse>(this.baseUrl).subscribe(
       value =>{
         this.objectList = [];
-        if(value.success==='success'){
-          for(let info of value.message){
+        if(value.status==='success'){
+          for(let info of value.result){
             this.objectList.push(this.jsonToObjectConvert(info));
           }
         }
@@ -32,10 +32,10 @@ export abstract class BaseService<T extends Base> {
   public getById(id : number) : Observable<T | Error>{
     return this.http.get<ServeurResponse>(this.baseUrl+`/id/${id}`).pipe(
       map(value =>{
-        if(value.success==='success'){
-          return this.jsonToObjectConvert(value.message);
+        if(value.status==='success'){
+          return this.jsonToObjectConvert(value.result);
         } else {
-          return new Error(value.message);
+          return new Error(value.result);
         }
       })
     )
@@ -44,10 +44,10 @@ export abstract class BaseService<T extends Base> {
   public getByKey(key : any) : Observable<T | Error>{
     return this.http.get<ServeurResponse>(this.baseUrl+`/key/${key}`).pipe(
       map(value =>{
-        if(value.success==='success'){
-          return this.jsonToObjectConvert(value.message);
+        if(value.status==='success'){
+          return this.jsonToObjectConvert(value.result);
         } else {
-          return new Error(value.message);
+          return new Error(value.result);
         }
       })
     )
@@ -57,11 +57,11 @@ export abstract class BaseService<T extends Base> {
     return this.http.post<ServeurResponse>(this.baseUrl,this.objectToJsonConvert(newObject))
     .pipe(
       map(value =>{
-        if(value.success==='success'){
-          newObject.setId(value.message);
+        if(value.status==='success'){
+          newObject.setId(value.result);
           return newObject;
         } else {
-          return new Error(value.message);
+          return new Error(value.result);
         }
       })
     )
@@ -71,10 +71,10 @@ export abstract class BaseService<T extends Base> {
     return this.http.put<ServeurResponse>(this.baseUrl+`/${updatedObject.getId()}`,this.objectToJsonConvert(updatedObject))
     .pipe(
       map(value =>{
-        if(value.success==='success'){
+        if(value.status==='success'){
           return updatedObject;
         } else {
-          return new Error(value.message);
+          return new Error(value.result);
         }
       })
     )
@@ -83,10 +83,10 @@ export abstract class BaseService<T extends Base> {
   public delete(id : number) : Observable<boolean | Error>{
     return this.http.delete<ServeurResponse>(this.baseUrl+`/${id}`).pipe(
       map(value =>{
-        if(value.success==='success'){
+        if(value.status==='success'){
           return true;
         } else {
-          return new Error(value.message);
+          return new Error(value.result);
         }
       })
     )

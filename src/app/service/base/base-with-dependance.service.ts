@@ -19,14 +19,14 @@ export abstract class BaseWithDependanceService<T extends Base> extends BaseServ
     return this.http.get<ServeurResponse>(this.baseUrl+`/dependance/${id}`)
     .pipe(
       map(value=>{
-        if(value.success==='success'){
+        if(value.status==='success'){
           let result : T[] = [];
-          for(let info of value.message){
+          for(let info of value.result){
             result.push(this.jsonToObjectConvert(info));
           }
           return result;
         } else {
-          return new Error(value.message);
+          return new Error(value.result);
         }
       })
     )

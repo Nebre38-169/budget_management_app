@@ -1,0 +1,65 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>signin</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form #signinForm="ngForm" (ngSubmit)="onSignIn()">
+    <ion-item> <!-- Email field -->
+      <ion-label position="floating">Adresse mail</ion-label>
+      <ion-input id="email"
+      type="email"
+      required
+      [(ngModel)]="newEmail"
+      name="emailField"
+      #emailField="ngModel"></ion-input>
+    </ion-item>
+    <ion-item> <!-- firstName field -->
+      <ion-label position="floating">Prénom</ion-label>
+      <ion-input id="firstName"
+      type="nickname"
+      required
+      [(ngModel)]="firstName"
+      name="firstNameField"
+      #firstNameField="ngModel"></ion-input>
+    </ion-item>
+    <ion-item> <!-- LastName field -->
+      <ion-label position="floating">Nom</ion-label>
+      <ion-input id="lastName"
+      type="cc-family-name"
+      required
+      [(ngModel)]="lastName"
+      name="lastNameField"
+      #lastNameField="ngModel"></ion-input>
+    </ion-item>
+    <ion-item> <!-- Password field -->
+      <ion-label position="floating">Mot de passe</ion-label>
+      <ion-input id="password"
+      type="password"
+      required
+      [(ngModel)]="newPassword"
+      name="passwordField"
+      #passwordField="ngModel"></ion-input>
+    </ion-item>
+    <ion-item> <!-- Confirm Password field -->
+      <ion-label position="floating"> Confirmer</ion-label>
+      <ion-input id="matchingPassword"
+      type="password"
+      required
+      [(ngModel)]="matchingPassword"
+      name="confirmPasswordField"
+      #confirmPasswordField="ngModel"></ion-input>
+    </ion-item>
+    <ion-item> <!-- Budget field -->
+      <ion-label position="floating">Budget au mois</ion-label>
+      <ion-input id="budget"
+      type="number"
+      required
+      [(ngModel)]="budget"
+      name="budgetField"
+      #budgetField="ngModel"></ion-input>
+    </ion-item>
+    <ion-button [disabled]="!signinForm.valid" expand="block" type="submit">Se connecter</ion-button>
+  </form>
+</ion-content>

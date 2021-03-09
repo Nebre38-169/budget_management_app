@@ -13,7 +13,7 @@ import { UserService } from '../user/user.service';
 })
 export class AuthService {
   loggedUser : User;
-  userAsSubject : Subject<User>;
+  userAsSubject : Subject<User> = new Subject<User>();
 
   constructor(private http : HttpClient,
     private UserService : UserService) { }
@@ -25,13 +25,13 @@ export class AuthService {
       {'email':email,'password' : this.getCryptedPass(password)}
     ).pipe(
       map(value =>{
-        if(value.success==='success'){
-          this.loggedUser = this.UserService.jsonToObjectConvert(value.message.user);
+        if(value.status==='success'){
+          this.loggedUser = this.UserService.jsonToObjectConvert(value.result.user);
           this.updateUser();
-          localStorage.setItem('access_token',value.message.token);
+          localStorage.setItem('access_token',value.result.token);
           return this.loggedUser;
         } else {
-          return new Error(value.message);
+          return new Error(value.result);
         }
       })
     )
@@ -43,13 +43,13 @@ export class AuthService {
       {'idUser':id}
     ).pipe(
       map(value =>{
-        if(value.success==='success'){
+        if(value.status==='success'){
           localStorage.removeItem('access_token');
           this.loggedUser = null;
           this.updateUser();
           return true;
         } else {
-          return new Error(value.message);
+          return new Error(value.result);
         }
       })
     )
@@ -63,11 +63,11 @@ export class AuthService {
       body
     ).pipe(
       map(value =>{
-        if(value.success==='success'){
-          user.setId(value.message);
+        if(value.status==='success'){
+          user.setId(value.result);
           return user;
         } else {
-          return new Error(value.message);
+          return new Error(value.result);
         }
       })
     )
