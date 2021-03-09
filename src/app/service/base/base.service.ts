@@ -96,7 +96,7 @@ export abstract class BaseService<T extends Base> {
     this.objectListObs.next(this.objectList);
   }
 
-  protected abstract jsonToObjectConvert(info : any) : T;
-  protected abstract objectToJsonConvert(obj : T) : any; 
+  public abstract jsonToObjectConvert(info : any) : T;
+  public abstract objectToJsonConvert(obj : T) : any; 
 
 }

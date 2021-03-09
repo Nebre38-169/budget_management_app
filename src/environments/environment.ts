@@ -7,7 +7,8 @@ export const environment = {
   baseUrl : {
     base : 'http://localhost:3000',
     expense : '/expense',
-    user : '/user'
+    user : '/user',
+    auth : '/connexion'
   }
 };
 

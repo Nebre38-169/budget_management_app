@@ -15,7 +15,7 @@ export class UserService extends BaseService<User>{
     this.baseUrl = environment.baseUrl.base+environment.baseUrl.user
    }
 
-  protected jsonToObjectConvert(info: any): User {
+  public jsonToObjectConvert(info: any): User {
     return new User(
       Number.parseInt(info.id),
       new Date(info.creationDate),
@@ -27,7 +27,7 @@ export class UserService extends BaseService<User>{
     )
   }
 
-  protected objectToJsonConvert(obj: User) {
+  public objectToJsonConvert(obj: User) {
     return {
       email : obj.email,
       password : null,
