@@ -10,12 +10,12 @@ import { Observable, Subject } from 'rxjs';
 })
 export abstract class BaseService<T extends Base> {
   protected baseUrl : string;
-  private objectList : T[];
-  public objectListObs : Subject<T[]>;
+  protected objectList : T[];
+  public objectListObs : Subject<T[]> = new Subject<T[]>();
 
   constructor(protected http : HttpClient) { }
 
-  private fecth(){
+  public fetch() : void {
     this.http.get<ServeurResponse>(this.baseUrl).subscribe(
       value =>{
         this.objectList = [];
@@ -26,6 +26,27 @@ export abstract class BaseService<T extends Base> {
         }
         this.update();
       }
+    )
+  }
+
+  public getCondition(condition : string,param='*', opts='*') : Observable<T[] | Error>{
+    return this.http.post<ServeurResponse>(this.baseUrl+`/condition`,
+    {
+      condition : condition,
+      param : param,
+      option : opts
+    }).pipe(
+      map(value =>{
+        if(value.status==='success'){
+          let result : T[] = [];
+          for(let info of value.result){
+            result.push(this.jsonToObjectConvert(info));
+          }
+          return result;
+        }else {
+          return new Error(value.result);
+        }
+      })
     )
   }
 
@@ -92,7 +113,7 @@ export abstract class BaseService<T extends Base> {
     )
   }
 
-  private update(){
+  protected update(){
     this.objectListObs.next(this.objectList);
   }
 

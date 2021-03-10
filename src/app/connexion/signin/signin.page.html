@@ -1,5 +1,8 @@
 <ion-header>
   <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/connexion/login"></ion-back-button>
+    </ion-buttons>
     <ion-title>signin</ion-title>
   </ion-toolbar>
 </ion-header>
@@ -11,6 +14,7 @@
       <ion-input id="email"
       type="email"
       required
+      pattern="[^@ \t\r\n]+@[^@ \t\r\n]+\.[^@ \t\r\n]+"
       [(ngModel)]="newEmail"
       name="emailField"
       #emailField="ngModel"></ion-input>
@@ -20,6 +24,7 @@
       <ion-input id="firstName"
       type="nickname"
       required
+      
       [(ngModel)]="firstName"
       name="firstNameField"
       #firstNameField="ngModel"></ion-input>
@@ -38,6 +43,7 @@
       <ion-input id="password"
       type="password"
       required
+      pattern=".{8,}"
       [(ngModel)]="newPassword"
       name="passwordField"
       #passwordField="ngModel"></ion-input>
@@ -60,6 +66,6 @@
       name="budgetField"
       #budgetField="ngModel"></ion-input>
     </ion-item>
-    <ion-button [disabled]="!signinForm.valid" expand="block" type="submit">Se connecter</ion-button>
+    <ion-button [disabled]="!signinForm.valid && matchingPassword===newPassword" expand="block" type="submit">Se connecter</ion-button>
   </form>
 </ion-content>

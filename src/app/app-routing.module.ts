@@ -14,6 +14,10 @@ const routes: Routes = [
   {
     path: 'connexion',
     loadChildren: () => import('./connexion/connexion.module').then( m => m.ConnexionModule)
+  },
+  {
+    path: 'month/:date',
+    loadChildren: () => import('./month/month.module').then( m => m.MonthPageModule)
   }
 ];
 

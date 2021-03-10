@@ -1,22 +1,26 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import * as CryptoJS from 'crypto-js';
+import Base64 from 'crypto-js/enc-base64';
+import hmacSHA512 from 'crypto-js/hmac-sha512';
 import { Observable, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ServeurResponse } from 'src/app/class/ServeurResponse/serveur-response';
 import { User } from 'src/app/class/user/user';
 import { environment } from 'src/environments/environment';
+import { ExpenseService } from '../expense/expense.service';
 import { UserService } from '../user/user.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  loggedUser : User;
-  userAsSubject : Subject<User> = new Subject<User>();
+  private loggedUser : User;
+  public userAsSubject : Subject<User> = new Subject<User>();
 
   constructor(private http : HttpClient,
-    private UserService : UserService) { }
+    private UserService : UserService,
+    private ExpenseService : ExpenseService) { }
 
 
   public login(email : string, password : string) : Observable<User | Error> {
@@ -29,6 +33,7 @@ export class AuthService {
           this.loggedUser = this.UserService.jsonToObjectConvert(value.result.user);
           this.updateUser();
           localStorage.setItem('access_token',value.result.token);
+          this.ExpenseService.fetchForDependance(this.loggedUser.getId());
           return this.loggedUser;
         } else {
           return new Error(value.result);
@@ -58,6 +63,7 @@ export class AuthService {
   public signin(user : User,pass : string) : Observable<User | Error>{
     let body = this.UserService.objectToJsonConvert(user);
     body.password = this.getCryptedPass(pass);
+    console.log(body);
     return this.http.post<ServeurResponse>(
       environment.baseUrl.base+environment.baseUrl.auth+`/signin`,
       body
@@ -73,6 +79,14 @@ export class AuthService {
     )
   }
 
+  public getUser() : void {
+    this.updateUser();
+  }
+
+  public isLogged() : boolean {
+    return this.loggedUser!=undefined;
+  }
+
 
   private updateUser(){
     this.userAsSubject.next(this.loggedUser);
@@ -80,7 +94,7 @@ export class AuthService {
 
   private getCryptedPass(pass : string) : string {
     let hash = CryptoJS.SHA256(pass);
-    let cryptedPassword = hash.toString(CryptoJS.enc.Utf16);
+    let cryptedPassword = Base64.stringify(hash)
     return cryptedPassword;
   }
 }

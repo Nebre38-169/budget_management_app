@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { NavController } from '@ionic/angular';
 import { User } from 'src/app/class/user/user';
 import { AuthService } from 'src/app/service/auth/auth.service';
 
@@ -16,7 +17,8 @@ export class SigninPage implements OnInit {
   public lastName : string;
   public budget : number;
 
-  constructor(private auth : AuthService) { }
+  constructor(private auth : AuthService,
+    private router : NavController) { }
 
   ngOnInit() {
   }
@@ -27,7 +29,18 @@ export class SigninPage implements OnInit {
       this.auth.signin(newUser,this.newPassword).subscribe(
         value =>{
           if(value instanceof Error){
+            //TODO : manage error message
             console.log(value);
+          } else {
+            this.auth.login(this.newEmail,this.newPassword).subscribe(
+              value =>{
+                if(value instanceof Error){
+                  console.log(value);
+                } else {
+                  this.router.navigateRoot('/home');
+                }
+              }
+            )
           }
         }
       )

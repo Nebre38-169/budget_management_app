@@ -15,6 +15,20 @@ export abstract class BaseWithDependanceService<T extends Base> extends BaseServ
     super(http);
    }
 
+  public fetchForDependance(id : number) : void{
+    this.http.get<ServeurResponse>(this.baseUrl+`/dependance/${id}`).subscribe(
+      value =>{
+        this.objectList = [];
+        if(value.status==='success'){
+          for(let info of value.result){
+            this.objectList.push(this.jsonToObjectConvert(info));
+          }
+        }
+        this.update();
+      }
+    )
+  }
+
   public getByDependance(id : number) : Observable<T[] | Error>{
     return this.http.get<ServeurResponse>(this.baseUrl+`/dependance/${id}`)
     .pipe(
