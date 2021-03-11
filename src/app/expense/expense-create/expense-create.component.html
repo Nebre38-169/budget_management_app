@@ -42,7 +42,8 @@
             #expenseDateField="ngModel"
             ></ion-datetime>
           </ion-item>
-          <ion-button type="submit" expand="block">Ajouter la dépense</ion-button>
+          <ion-button *ngIf="!expenseEdit" type="submit" expand="block">Ajouter la dépense</ion-button>
+          <ion-button *ngIf="expenseEdit" type="submit" expand="block">Modifier la dépense</ion-button>
         </form>
       </ion-col>
     </ion-row>

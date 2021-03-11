@@ -33,11 +33,17 @@ export class ExpenseService extends BaseWithDependanceService<Expense> {
   }
 
   public objectToJsonConvert(obj: Expense) {
+    let dateValue;
+    if(obj.date instanceof Date){
+      dateValue = `${obj.date.getFullYear()}-${obj.date.getMonth()+1}-${obj.date.getDate()}`;
+    } else {
+      dateValue = obj.date;
+    }
     return {
       user : obj.user,
       amount : obj.amount,
       name : obj.name,
-      date : obj.date
+      date : dateValue
     }
   }
 
