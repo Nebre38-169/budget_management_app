@@ -30,6 +30,20 @@ export class MonthPage implements OnInit,OnDestroy {
     private modalCtrl : ModalController
   ) { }
   
+  private fecthExpense(){
+    this.expense.getExpenseOfMonth(
+      this.currentMonth.getFullYear(),
+      this.currentMonth.getMonth()+1,
+      this.loggedUser.getId())
+    .subscribe(
+      value =>{
+        this.expenseList = value;
+        this.total = this.expense.getTotal(this.expenseList);
+        this.restant = this.loggedUser.budget-this.total;
+        this.restantPourcent = Math.round(100*this.restant/this.loggedUser.budget);
+      }
+    )
+  }
 
   ngOnInit() {
     let date :string = this.route.snapshot.params['date'];
@@ -37,18 +51,7 @@ export class MonthPage implements OnInit,OnDestroy {
     this.logSub = this.auth.userAsSubject.subscribe(
       value =>{
         this.loggedUser = value;
-        this.expense.getExpenseOfMonth(
-          this.currentMonth.getFullYear(),
-          this.currentMonth.getMonth()+1,
-          this.loggedUser.getId())
-        .subscribe(
-          value =>{
-            this.expenseList = value;
-            this.total = this.expense.getTotal(this.expenseList);
-            this.restant = this.loggedUser.budget-this.total;
-            this.restantPourcent = Math.round(100*this.restant/this.loggedUser.budget);
-          }
-        )
+        this.fecthExpense();
       }
     )
     this.auth.getUser();
@@ -62,7 +65,11 @@ export class MonthPage implements OnInit,OnDestroy {
     const modal = await this.modalCtrl.create({
       component : ExpenseCreateComponent
     })
-    return await modal.present();
+    await modal.present();
+    const { data } = await modal.onWillDismiss();
+    if(!data.dismissed){
+      this.fecthExpense();
+    }
   }
 
 }

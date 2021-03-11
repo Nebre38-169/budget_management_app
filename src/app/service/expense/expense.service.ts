@@ -34,6 +34,7 @@ export class ExpenseService extends BaseWithDependanceService<Expense> {
     return {
       user : obj.user,
       amount : obj.amount,
+      name : obj.name,
       date : obj.date
     }
   }

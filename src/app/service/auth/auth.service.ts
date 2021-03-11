@@ -83,6 +83,14 @@ export class AuthService {
     this.updateUser();
   }
 
+  public getId() : number {
+    if(this.loggedUser){
+      return this.loggedUser.getId();
+    } else {
+      return null
+    }
+  }
+
   public isLogged() : boolean {
     return this.loggedUser!=undefined;
   }

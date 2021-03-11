@@ -8,17 +8,17 @@ import { MonthPageRoutingModule } from './month-routing.module';
 
 import { MonthPage } from './month.page';
 import { DateToMonthPipe } from '../pipe/date-to-month.pipe';
-import { ExpenseComponent } from '../expense/expense.component';
+import { ExpenseModule } from '../expense/expense.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
+    ExpenseModule,
     MonthPageRoutingModule
   ],
   declarations: [
-    ExpenseComponent,
     DateToMonthPipe,
     MonthPage]
 })
