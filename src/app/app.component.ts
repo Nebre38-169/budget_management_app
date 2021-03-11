@@ -15,7 +15,15 @@ export class AppComponent implements OnInit {
     if(this.auth.isLogged()){
       //Yes the user is logged
     } else {
-      this.router.navigateRoot('/connexion/login')
+      this.auth.autologin().subscribe(value =>{
+        if(value instanceof Error){
+          console.log(value);
+          this.router.navigateRoot('/connexion/login')
+        } else {
+          this.router.navigateRoot('/home');
+        }
+      })
+      
     }
   }
 }

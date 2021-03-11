@@ -33,6 +33,30 @@ export class AuthService {
           this.loggedUser = this.UserService.jsonToObjectConvert(value.result.user);
           this.updateUser();
           localStorage.setItem('access_token',value.result.token);
+          localStorage.setItem('user_email',this.loggedUser.email);
+          this.ExpenseService.fetchForDependance(this.loggedUser.getId());
+          return this.loggedUser;
+        } else {
+          return new Error(value.result);
+        }
+      })
+    )
+  }
+
+  public autologin(){
+    return this.http.post<ServeurResponse>(
+      environment.baseUrl.base+environment.baseUrl.auth+`/autoLogin`,
+      {
+        email : localStorage.getItem('user_email'),
+        token : localStorage.getItem('access_token')
+      }
+    ).pipe(
+      map(value =>{
+        if(value.status==='success'){
+          this.loggedUser = this.UserService.jsonToObjectConvert(value.result.res);
+          this.updateUser();
+          localStorage.setItem('access_token',value.result.newToken);
+          localStorage.setItem('user_email',this.loggedUser.email);
           this.ExpenseService.fetchForDependance(this.loggedUser.getId());
           return this.loggedUser;
         } else {
