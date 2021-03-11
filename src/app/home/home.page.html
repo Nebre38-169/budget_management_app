@@ -13,13 +13,19 @@
   <ion-grid>
     <ion-row>
       <ion-col>
-        <ion-list>
+        <ion-list *ngIf="monthList && monthList.length>0">
           <ion-item *ngFor="let month of monthList" routerLink="/month/{{month.date.getFullYear()}}-{{month.date.getMonth()+1}}">
             <ion-label>{{ month.date| dateToMonth }}</ion-label>
             <ion-note slot="end" color="primary">{{ month.amount }} €</ion-note>
           </ion-item>
         </ion-list>
+        <ion-item *ngIf="!monthList || monthList.length<1">
+          <ion-label>
+            <p>Il n'y a pas de dépense enregistrer pour l'instant</p>
+          </ion-label>
+        </ion-item>
       </ion-col>
     </ion-row>
   </ion-grid>
+  <app-add-expense-button [user]="user"></app-add-expense-button>
 </ion-content>

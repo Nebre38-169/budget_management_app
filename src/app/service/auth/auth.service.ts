@@ -103,8 +103,8 @@ export class AuthService {
     )
   }
 
-  public getUser() : void {
-    this.updateUser();
+  public getUser() : User {
+    return this.loggedUser;
   }
 
   public getId() : number {

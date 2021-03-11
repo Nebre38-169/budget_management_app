@@ -6,6 +6,7 @@ import { HomePage } from './home.page';
 
 import { HomePageRoutingModule } from './home-routing.module';
 import { DateToMonthPipe } from '../pipe/date-to-month.pipe';
+import { ExpenseModule } from '../expense/expense.module';
 
 
 @NgModule({
@@ -13,6 +14,7 @@ import { DateToMonthPipe } from '../pipe/date-to-month.pipe';
     CommonModule,
     FormsModule,
     IonicModule,
+    ExpenseModule,
     HomePageRoutingModule
   ],
   declarations: [

@@ -25,9 +25,5 @@
   <ion-list *ngIf="expenseList && expenseList.length>0">
     <app-expense *ngFor="let e of expenseList" [expense]="e"></app-expense>
   </ion-list>
-  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-    <ion-fab-button (click)="presentModal()">
-      <ion-icon name="add"></ion-icon>
-    </ion-fab-button>
-  </ion-fab>
+  <app-add-expense-button></app-add-expense-button>
 </ion-content>

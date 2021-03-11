@@ -1,9 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, Subject, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Expense } from 'src/app/class/expense/expense';
 import { environment } from 'src/environments/environment';
+import { AuthService } from '../auth/auth.service';
 import { BaseWithDependanceService } from '../base/base-with-dependance.service';
 import { BaseService } from '../base/base.service';
 
@@ -11,7 +12,8 @@ import { BaseService } from '../base/base.service';
   providedIn: 'root'
 })
 export class ExpenseService extends BaseWithDependanceService<Expense> {
-  public monthValue : Expense[];
+  public monthList : Subject<Expense[]> = new Subject<Expense[]>();
+  public monthExpenses : Subject<Expense[]> = new Subject<Expense[]>();
 
   constructor(protected http : HttpClient) {
     super(http);
@@ -21,7 +23,7 @@ export class ExpenseService extends BaseWithDependanceService<Expense> {
   public jsonToObjectConvert(info: any): Expense {
     return new Expense(
       Number.parseInt(info.id),
-      Number.parseInt(info.idUser),
+      Number.parseInt(info.user),
       info.name,
       Number.parseFloat(info.amount),
       new Date(info.date),
@@ -55,6 +57,21 @@ export class ExpenseService extends BaseWithDependanceService<Expense> {
     )
   }
 
+  public fecthExpenseOfMonth(year : number,month : number, id : number) : void {
+    this.getExpenseOfMonth(year,month,id)
+    .subscribe(value =>{
+      this.updateMontExpense(value);
+    })
+  }
+
+  private updateMontExpense(value){
+    this.monthExpenses.next(value);
+  }
+
+  private updateMonthList(value){
+    this.monthList.next(value);
+  }
+
   public getTotal(eList : Expense[]) : number{
     let result = 0;
     for(let e of eList){
@@ -66,7 +83,7 @@ export class ExpenseService extends BaseWithDependanceService<Expense> {
 
   public getMonthOfUser(id : number) : Observable<Expense[]> {
     return this.getCondition(
-      ` user=${id} GROUP BY MONTH(expense.date)`,
+      ` user=${id} GROUP BY YEAR(expense.date),MONTH(expense.date)`,
       `date,SUM(expense.amount) AS 'amount'`
     ).pipe(
       map(
@@ -74,10 +91,17 @@ export class ExpenseService extends BaseWithDependanceService<Expense> {
           if(value instanceof Error){
             //TODO : handle error
           } else {
-            this.monthValue = value;
-            return this.monthValue;
+            return value; 
           }
         })
+    )
+  }
+
+  public fecthMonthOfUser(id : number) : void {
+    this.getMonthOfUser(id).subscribe(
+      value =>{
+        this.updateMonthList(value);
+      }
     )
   }
 

@@ -12,10 +12,9 @@ import { ExpenseService } from '../service/expense/expense.service';
   styleUrls: ['home.page.scss'],
 })
 export class HomePage implements OnInit,OnDestroy {
-  public loggedUser : User;
+  public user : number;
   public monthList : Expense[];
-
-  private logSub : Subscription;
+  private expenseSub : Subscription;
   constructor(private auth : AuthService,
     private expense : ExpenseService,
     private router : NavController) {}
@@ -23,26 +22,18 @@ export class HomePage implements OnInit,OnDestroy {
   
 
   ngOnInit(): void {
-    this.logSub = this.auth.userAsSubject.subscribe(
-      value =>{
-        if(value!=undefined){
-          this.loggedUser = value;
-          this.expense.getMonthOfUser(this.loggedUser.getId())
-          .subscribe(value => this.monthList = value);
-        }
-      }
+    this.user = this.auth.getId();
+    this.expenseSub = this.expense.monthList.subscribe(
+      value => this.monthList = value
     )
-    this.auth.getUser();
+    this.expense.fecthMonthOfUser(this.user);
   }
 
   ngOnDestroy(): void {
-    this.logSub.unsubscribe();
+    this.expenseSub.unsubscribe();
   }
 
   onMonth(e : Expense) : void {
     this.router.navigateRoot(`/month/${e.date.getFullYear()}-${e.date.getMonth()}`)
   }
-
-  
-
 }

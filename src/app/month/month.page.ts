@@ -23,6 +23,7 @@ export class MonthPage implements OnInit,OnDestroy {
 
 
   private logSub : Subscription
+  private expenseSub : Subscription;
   constructor(
     private auth : AuthService,
     private expense : ExpenseService,
@@ -30,46 +31,25 @@ export class MonthPage implements OnInit,OnDestroy {
     private modalCtrl : ModalController
   ) { }
   
-  private fecthExpense(){
-    this.expense.getExpenseOfMonth(
-      this.currentMonth.getFullYear(),
-      this.currentMonth.getMonth()+1,
-      this.loggedUser.getId())
-    .subscribe(
-      value =>{
-        this.expenseList = value;
-        this.total = this.expense.getTotal(this.expenseList);
-        this.restant = this.loggedUser.budget-this.total;
-        this.restantPourcent = Math.round(100*this.restant/this.loggedUser.budget);
-      }
-    )
-  }
-
   ngOnInit() {
     let date :string = this.route.snapshot.params['date'];
     this.currentMonth = new Date(date);
-    this.logSub = this.auth.userAsSubject.subscribe(
+    this.expenseSub = this.expense.monthExpenses.subscribe(
       value =>{
-        this.loggedUser = value;
-        this.fecthExpense();
+        this.expenseList = value;
+        this.total = this.expense.getTotal(this.expenseList);
+        this.restant = this.auth.getUser().budget-this.total;
+        this.restantPourcent = Math.round(100*this.restant/this.auth.getUser().budget);
       }
     )
-    this.auth.getUser();
+    this.expense.fecthExpenseOfMonth(
+      this.currentMonth.getFullYear(),
+      this.currentMonth.getMonth()+1,
+      this.auth.getId()
+    )
   }
 
   ngOnDestroy(): void {
-    this.logSub.unsubscribe();
+    this.expenseSub.unsubscribe();
   }
-
-  async presentModal(){
-    const modal = await this.modalCtrl.create({
-      component : ExpenseCreateComponent
-    })
-    await modal.present();
-    const { data } = await modal.onWillDismiss();
-    if(!data.dismissed){
-      this.fecthExpense();
-    }
-  }
-
 }
