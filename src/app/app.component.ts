@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { NavController } from '@ionic/angular';
+import { MenuController, NavController } from '@ionic/angular';
 import { AuthService } from './service/auth/auth.service';
 
 @Component({
@@ -9,7 +9,8 @@ import { AuthService } from './service/auth/auth.service';
 })
 export class AppComponent implements OnInit {
   constructor(private auth : AuthService,
-    private router : NavController) {}
+    private router : NavController,
+    private menu : MenuController) {}
 
   ngOnInit(): void {
     if(this.auth.isLogged()){
@@ -25,5 +26,9 @@ export class AppComponent implements OnInit {
       })
       
     }
+  }
+
+  closeMenu(){
+    this.menu.close('first');
   }
 }
