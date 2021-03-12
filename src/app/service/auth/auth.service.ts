@@ -35,6 +35,7 @@ export class AuthService {
           localStorage.setItem('access_token',value.result.token);
           localStorage.setItem('user_email',this.loggedUser.email);
           this.ExpenseService.fetchForDependance(this.loggedUser.getId());
+          this.updateUser();
           return this.loggedUser;
         } else {
           return new Error(value.result);
@@ -103,6 +104,26 @@ export class AuthService {
     )
   }
 
+  public editPassword(user : User, oldPass : string, newPass : string) : Observable<User | Error>{
+    let body = {
+      id : user.getId(),
+      oldPassword : this.getCryptedPass(oldPass),
+      newPassword : this.getCryptedPass(newPass)
+    }
+    return this.http.post<ServeurResponse>(
+      environment.baseUrl.base+environment.baseUrl.auth+`/changePassword`,
+      body
+    ).pipe(
+      map(value =>{
+        if(value.status==='success'){
+          return user;
+        } else {
+          return new Error(value.result);
+        }
+      })
+    )
+  }
+
   public getUser() : User {
     return this.loggedUser;
   }
@@ -120,7 +141,7 @@ export class AuthService {
   }
 
 
-  private updateUser(){
+  public updateUser(){
     this.userAsSubject.next(this.loggedUser);
   }
 

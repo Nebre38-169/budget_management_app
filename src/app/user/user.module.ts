@@ -7,6 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { UserPageRoutingModule } from './user-routing.module';
 
 import { UserPage } from './user.page';
+import { EditPasswordComponent } from './edit-password/edit-password.component';
 
 @NgModule({
   imports: [
@@ -15,6 +16,9 @@ import { UserPage } from './user.page';
     IonicModule,
     UserPageRoutingModule
   ],
-  declarations: [UserPage]
+  declarations: [
+    UserPage,
+    EditPasswordComponent
+  ]
 })
 export class UserPageModule {}

@@ -3,10 +3,55 @@
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
-    <ion-title>user</ion-title>
+    <ion-title>Profile</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-
+  <form *ngIf="user" #editUser="ngForm">
+    <ion-item> <!-- email field -->
+      <ion-label position="floating">Adresse email</ion-label>
+      <ion-input id="email"
+      type="email"
+      [readonly]="true"
+      [(ngModel)]="user.email"
+      name="emailField"
+      #emailField="ngModel"
+      ></ion-input>
+    </ion-item>
+    <ion-item> <!-- fisrt name field -->
+      <ion-label position="floating">Prénom</ion-label>
+      <ion-input id="firstName"
+      type="text"
+      [readonly]="true"
+      [(ngModel)]="user.firstName"
+      name="firstNameField"
+      #firstNameField="ngModel"></ion-input>
+    </ion-item>
+    <ion-item> <!-- last name  field -->
+      <ion-label position="floating">Nom</ion-label>
+      <ion-input id="lastName"
+      type="text"
+      [readonly]="true"
+      [(ngModel)]="user.lastName"
+      name="lastNameField"
+      #lastNameField="ngModel"></ion-input>
+    </ion-item>
+    <ion-item> <!-- budget field -->
+      <ion-label position="floating">Budget</ion-label>
+      <ion-input id="budget"
+      type="number"
+      [readonly]="true"
+      [(ngModel)]="user.budget"
+      name="budgetField"
+      #budgetField="ngModel"></ion-input>
+    </ion-item>
+  </form>
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <ion-button expand="block" (click)="onEditPassword()">Modifier le mot de passe</ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-content>
