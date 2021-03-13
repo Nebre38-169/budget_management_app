@@ -32,7 +32,7 @@ export class SigninPage implements OnInit {
             //TODO : manage error message
             console.log(value);
           } else {
-            this.auth.login(this.newEmail,this.newPassword).subscribe(
+            this.auth.login(this.newEmail,this.newPassword,false).subscribe(
               value =>{
                 if(value instanceof Error){
                   console.log(value);

@@ -27,6 +27,13 @@
             name="passwordField"
             #passwordField="ngModel"></ion-input>
           </ion-item>
+          <ion-item>
+            <ion-label>Rester connecter ?</ion-label>
+            <ion-checkbox
+            [(ngModel)]="alwaysLog"
+            name="alwaysLogsCheck"
+            #alwaysLogsCheck="ngModel"></ion-checkbox>
+          </ion-item>
           <ion-button [disabled]="!logForm.valid" expand="block" type="submit">Se connecter</ion-button>
         </form>
         <ion-item [hidden]="!error">

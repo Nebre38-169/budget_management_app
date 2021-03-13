@@ -14,13 +14,21 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     if(this.auth.isLogged()){
-      //Yes the user is logged
+      this.router.navigateRoot('/home');
     } else {
       this.auth.autologin().subscribe(value =>{
+        console.log(value);
         if(value instanceof Error){
-          console.log(value);
-          this.router.navigateRoot('/connexion/login')
+          this.auth.autoLoginWithPass().subscribe(
+            value =>{
+              if(value instanceof Error){
+                this.router.navigateRoot('/connexion/login');
+              }
+              this.router.navigateRoot('/home');
+            }
+          )
         } else {
+
           this.router.navigateRoot('/home');
         }
       })
@@ -30,5 +38,14 @@ export class AppComponent implements OnInit {
 
   closeMenu(){
     this.menu.close('first');
+  }
+
+  onLogout(){
+    this.auth.logout(this.auth.getUser().getId())
+    .subscribe(value =>{
+      console.log(value);
+      this.router.navigateRoot('/connexion/login');
+      this.closeMenu();
+    })
   }
 }

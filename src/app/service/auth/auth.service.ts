@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import * as CryptoJS from 'crypto-js';
 import Base64 from 'crypto-js/enc-base64';
 import hmacSHA512 from 'crypto-js/hmac-sha512';
-import { Observable, Subject } from 'rxjs';
+import { Observable, of, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ServeurResponse } from 'src/app/class/ServeurResponse/serveur-response';
 import { User } from 'src/app/class/user/user';
@@ -23,7 +23,8 @@ export class AuthService {
     private ExpenseService : ExpenseService) { }
 
 
-  public login(email : string, password : string) : Observable<User | Error> {
+
+  public login(email : string, password : string, alwaysLog : boolean) : Observable<User | Error> {
     return this.http.post<ServeurResponse>(
       environment.baseUrl.base+environment.baseUrl.auth+`/login`,
       {'email':email,'password' : this.getCryptedPass(password)}
@@ -34,6 +35,9 @@ export class AuthService {
           this.updateUser();
           localStorage.setItem('access_token',value.result.token);
           localStorage.setItem('user_email',this.loggedUser.email);
+          if(alwaysLog){
+            localStorage.setItem('user_password',this.getCryptedPass(password));
+          }
           this.ExpenseService.fetchForDependance(this.loggedUser.getId());
           this.updateUser();
           return this.loggedUser;
@@ -61,10 +65,34 @@ export class AuthService {
           this.ExpenseService.fetchForDependance(this.loggedUser.getId());
           return this.loggedUser;
         } else {
+          return new Error('Missing information');
+        }
+      })
+    )
+  }
+
+  public autoLoginWithPass() : Observable<User |Error>{
+    let email = localStorage.getItem('user_email');
+    let password = localStorage.getItem('user_password');
+    return this.http.post<ServeurResponse>(
+      environment.baseUrl.base+environment.baseUrl.auth+`/login`,
+      {'email':email,'password' : password}
+    ).pipe(
+      map(value =>{
+        if(value.status==='success'){
+          this.loggedUser = this.UserService.jsonToObjectConvert(value.result.user);
+          this.updateUser();
+          localStorage.setItem('access_token',value.result.token);
+          localStorage.setItem('user_email',this.loggedUser.email);
+          this.ExpenseService.fetchForDependance(this.loggedUser.getId());
+          this.updateUser();
+          return this.loggedUser;
+        } else {
           return new Error(value.result);
         }
       })
     )
+    
   }
 
   public logout(id : number) : Observable<boolean | Error>{

@@ -12,6 +12,7 @@ export class LoginPage implements OnInit {
   public email : string;
   public password :string;
   public error = false;
+  public alwaysLog : boolean;
 
   constructor(private auth : AuthService,
     private router : NavController) { }
@@ -20,7 +21,7 @@ export class LoginPage implements OnInit {
   }
 
   onLogin(){
-    this.auth.login(this.email,this.password)
+    this.auth.login(this.email,this.password,this.alwaysLog)
     .subscribe(value =>{
       if(value instanceof Error){
         this.error = true;
