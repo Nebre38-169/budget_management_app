@@ -1,4 +1,4 @@
-import { DateToMonthPipe } from './date-to-month.pipe';
+import { DateToMonthPipe } from "./date-to-month.pipe";
 
 describe('DateToMonthPipe', () => {
   it('create an instance', () => {

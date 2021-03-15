@@ -8,7 +8,8 @@ export const environment = {
     base : 'http://localhost:3000',
     expense : '/expense',
     user : '/user',
-    auth : '/connexion'
+    auth : '/connexion',
+    month : '/month'
   }
 };
 

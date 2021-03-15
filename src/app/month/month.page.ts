@@ -21,7 +21,6 @@ export class MonthPage implements OnInit,OnDestroy {
   public restant : number;
   public restantPourcent : number;
 
-
   private logSub : Subscription
   private expenseSub : Subscription;
   constructor(

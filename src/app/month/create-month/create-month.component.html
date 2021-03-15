@@ -1,0 +1,42 @@
+<ion-header translucent>
+  <ion-toolbar>
+    <ion-title>Nouveau mois</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="onDismiss()">
+        <ion-icon name="close-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form #newMonth="ngForm" (ngSubmit)="onSubmit()">
+    <ion-item> <!-- start Date field-->
+      <ion-label position="floating">Date début</ion-label>
+      <ion-datetime id="start"
+      required
+      [(ngModel)]="startDate"
+      name="startDateField"
+      #startDateField="ngModel"></ion-datetime>
+    </ion-item>
+    <ion-item> <!-- end Date field-->
+      <ion-label position="floating">Date fin</ion-label>
+      <ion-datetime id="end"
+      required
+      [(ngModel)]="endDate"
+      name="endDateField"
+      #endDateField="ngModel"></ion-datetime>
+    </ion-item>
+    <ion-item> <!--budget field-->
+      <ion-label position="floating">Budget</ion-label>
+      <ion-input id="bud"
+      type="number"
+      required
+      [(ngModel)]="budget"
+      name="budgetField"
+      #budgetField="ngModel"
+      ></ion-input>
+    </ion-item>
+    <ion-button expand="block" type="submit">Ajouter</ion-button>
+  </form>
+</ion-content>

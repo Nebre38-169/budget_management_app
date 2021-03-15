@@ -5,7 +5,6 @@ import { FormsModule } from '@angular/forms';
 import { HomePage } from './home.page';
 
 import { HomePageRoutingModule } from './home-routing.module';
-import { DateToMonthPipe } from '../pipe/date-to-month.pipe';
 import { ExpenseModule } from '../expense/expense.module';
 
 
@@ -18,7 +17,6 @@ import { ExpenseModule } from '../expense/expense.module';
     HomePageRoutingModule
   ],
   declarations: [
-    DateToMonthPipe,
     HomePage
   ]
 })

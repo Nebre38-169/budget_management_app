@@ -7,8 +7,8 @@ import { IonicModule } from '@ionic/angular';
 import { MonthPageRoutingModule } from './month-routing.module';
 
 import { MonthPage } from './month.page';
-import { DateToMonthPipe } from '../pipe/date-to-month.pipe';
 import { ExpenseModule } from '../expense/expense.module';
+import { CreateMonthComponent } from './create-month/create-month.component';
 
 @NgModule({
   imports: [
@@ -19,7 +19,11 @@ import { ExpenseModule } from '../expense/expense.module';
     MonthPageRoutingModule
   ],
   declarations: [
-    DateToMonthPipe,
-    MonthPage]
+    MonthPage,
+    CreateMonthComponent
+  ],
+  exports : [
+    CreateMonthComponent
+  ]
 })
 export class MonthPageModule {}
