@@ -1,10 +1,10 @@
-<ion-item-sliding *ngIf="expense">
+<ion-item-sliding *ngIf="expenseOBJ">
   <ion-item>
     <ion-label>
-      <h3>{{ expense.name }}</h3>
-      <p>{{ expense.date | date }}</p>
+      <h3>{{ expenseOBJ.name }}</h3>
+      <p>{{ expenseOBJ.date | date }}</p>
     </ion-label>
-    <ion-note slot="end">{{ expense.amount }}€</ion-note>
+    <ion-note slot="end">{{ expenseOBJ.amount }}€</ion-note>
   </ion-item>
 
   <ion-item-options side="end">

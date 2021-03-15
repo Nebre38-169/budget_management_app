@@ -44,4 +44,20 @@ export class Month extends Base {
         let middleDateDte = new Date(startDate.getTime()+middleDate/2);
         this.name=`${this.monthListFr[middleDateDte.getMonth()]} ${middleDateDte.getFullYear()} `
     }
+
+    static getDateStr(d : Date) :string {
+        let result : string = `${d.getFullYear()}-`;
+        if(d.getMonth()<9){
+            result +=`0${d.getMonth()+1}`;
+        } else {
+            result +=`${d.getMonth()+1}`;
+        }
+        result+='-';
+        if(d.getDate()<10){
+            result +=`0${d.getDate()}`;
+        } else {
+            result +=`${d.getDate()}`;
+        }
+        return result;
+    }
 }

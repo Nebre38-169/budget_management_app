@@ -1,0 +1,17 @@
+<ion-item-sliding routerLink="/month/{{ monthOBJ.getId() }}">
+  <ion-item>
+    <ion-label>{{ monthOBJ.name }}</ion-label>
+    <ion-note slot="end">{{ monthOBJ.total }}€</ion-note>
+  </ion-item>
+  
+  <ion-item-options side="end">
+    <ion-item-option color="danger" (click)="onDelete()">
+      <ion-icon name="trash-outline"></ion-icon>
+    </ion-item-option>
+  </ion-item-options>
+  <ion-item-options side="start">
+    <ion-item-option color="primary" (click)="onEdit()">
+      <ion-icon name="create-outline"></ion-icon>
+    </ion-item-option>
+  </ion-item-options>
+</ion-item-sliding>

@@ -3,21 +3,12 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
   {
-    path: 'home',
-    loadChildren: () => import('./home/home.module').then( m => m.HomePageModule)
-  },
-  {
-    path: '',
-    redirectTo: 'home',
-    pathMatch: 'full'
-  },
-  {
     path: 'connexion',
     loadChildren: () => import('./connexion/connexion.module').then( m => m.ConnexionModule)
   },
   {
-    path: 'month/:date',
-    loadChildren: () => import('./month/month.module').then( m => m.MonthPageModule)
+    path: 'month',
+    loadChildren: () => import('./months/months.module').then( m => m.MonthsModule)
   },
   {
     path: 'user',
@@ -30,6 +21,11 @@ const routes: Routes = [
   {
     path: 'settings',
     loadChildren: () => import('./settings/settings.module').then( m => m.SettingsPageModule)
+  },
+  {
+    path: '',
+    redirectTo: 'month',
+    pathMatch: 'full'
   }
 ];
 

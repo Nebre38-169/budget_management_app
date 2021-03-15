@@ -14,7 +14,7 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     if(this.auth.isLogged()){
-      this.router.navigateRoot('/home');
+      this.router.navigateRoot('');
     } else {
       this.auth.autologin().subscribe(value =>{
         console.log(value);
@@ -24,12 +24,12 @@ export class AppComponent implements OnInit {
               if(value instanceof Error){
                 this.router.navigateRoot('/connexion/login');
               }
-              this.router.navigateRoot('/home');
+              this.router.navigateRoot('');
             }
           )
         } else {
 
-          this.router.navigateRoot('/home');
+          this.router.navigateRoot('');
         }
       })
       

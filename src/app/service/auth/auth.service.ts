@@ -19,8 +19,7 @@ export class AuthService {
   public userAsSubject : Subject<User> = new Subject<User>();
 
   constructor(private http : HttpClient,
-    private UserService : UserService,
-    private ExpenseService : ExpenseService) { }
+    private UserService : UserService) { }
 
 
 
@@ -38,7 +37,6 @@ export class AuthService {
           if(alwaysLog){
             localStorage.setItem('user_password',this.getCryptedPass(password));
           }
-          this.ExpenseService.fetchForDependance(this.loggedUser.getId(),'user');
           this.updateUser();
           return this.loggedUser;
         } else {
@@ -62,7 +60,6 @@ export class AuthService {
           this.updateUser();
           localStorage.setItem('access_token',value.result.newToken);
           localStorage.setItem('user_email',this.loggedUser.email);
-          this.ExpenseService.fetchForDependance(this.loggedUser.getId(),'user');
           return this.loggedUser;
         } else {
           return new Error('Missing information');
@@ -84,7 +81,6 @@ export class AuthService {
           this.updateUser();
           localStorage.setItem('access_token',value.result.token);
           localStorage.setItem('user_email',this.loggedUser.email);
-          this.ExpenseService.fetchForDependance(this.loggedUser.getId(),'user');
           this.updateUser();
           return this.loggedUser;
         } else {

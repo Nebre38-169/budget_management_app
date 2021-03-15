@@ -1,0 +1,25 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>
+      Mois
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list *ngIf="monthList && monthList.length>0">
+    <app-month *ngFor="let month of monthList" [monthOBJ]="month"></app-month>
+  </ion-list>
+  <ion-label *ngIf="!monthList || monthList.length<1">
+    Il n'y pas de dépense pour l'instant
+  </ion-label>
+
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button (click)="onNewMonth()">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>

@@ -4,9 +4,7 @@ import { Observable, Subject, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Expense } from 'src/app/class/expense/expense';
 import { environment } from 'src/environments/environment';
-import { AuthService } from '../auth/auth.service';
 import { BaseWithDependanceService } from '../base/base-with-dependance.service';
-import { BaseService } from '../base/base.service';
 
 @Injectable({
   providedIn: 'root'
@@ -22,13 +20,14 @@ export class ExpenseService extends BaseWithDependanceService<Expense> {
 
   public jsonToObjectConvert(info: any): Expense {
     return new Expense(
-      Number.parseInt(info.id),
-      Number.parseInt(info.user),
-      info.name,
-      Number.parseFloat(info.amount),
-      new Date(info.date),
+      parseInt(info.id),
       new Date(info.creationDate),
-      new Date(info.updateDate)
+      new Date(info.updateDate),
+      parseInt(info.user),
+      parseInt(info.month),
+      info.name,
+      parseFloat(info.amount),
+      new Date(info.date)
     )
   }
 
@@ -41,6 +40,7 @@ export class ExpenseService extends BaseWithDependanceService<Expense> {
     }
     return {
       user : obj.user,
+      month : obj.month,
       amount : obj.amount,
       name : obj.name,
       date : dateValue

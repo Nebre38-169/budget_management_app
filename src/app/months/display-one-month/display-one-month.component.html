@@ -1,0 +1,33 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title *ngIf="monthOBJ">
+      {{ monthOBJ.name }}
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content *ngIf="monthOBJ">
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Total : {{ monthOBJ.total }} €</ion-card-title>
+      <ion-card-subtitle>Restant : {{ monthOBJ.budget-monthOBJ.total }} €</ion-card-subtitle>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-label>Du {{ monthOBJ.startDate | date }} au {{ monthOBJ.endDate | date }}</ion-label>
+    </ion-card-content>
+  </ion-card>
+  <ion-list *ngIf="expenseList && expenseList.length>0">
+    <app-one-expense *ngFor="let exp of expenseList" [expenseOBJ]="exp" [monthId]="monthOBJ.getId()"></app-one-expense>
+  </ion-list>
+  <ion-item *ngIf="!expenseList || expenseList.length<1">
+    <ion-label>Il n'a pas de dépense pour ce mois ci</ion-label>
+  </ion-item>
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button (click)="onNewExpense()">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>

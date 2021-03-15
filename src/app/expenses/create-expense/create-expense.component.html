@@ -1,0 +1,44 @@
+<ion-header translucent>
+  <ion-toolbar>
+    <ion-title>Nouvelle dépense</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="onDismiss()">
+        <ion-icon name="close-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form #newExpense="ngForm" (ngSubmit)="onSubmit()">
+    <ion-item> <!--Name field-->
+      <ion-label position="floating">Nom</ion-label>
+      <ion-input id="name"
+      required
+      type="text"
+      [(ngModel)]="name"
+      name="nameField"
+      #nameField="ngModel"></ion-input>
+    </ion-item>
+    <ion-item> <!--Amount field-->
+      <ion-label position="floating">Montant</ion-label>
+      <ion-input id="amount"
+      required
+      type="number"
+      [(ngModel)]="amount"
+      name="amountField"
+      #amountField="ngModel"></ion-input>
+    </ion-item>
+    <ion-item> <!--Date field-->
+      <ion-label position="floating">Date</ion-label>
+      <ion-datetime id="date"
+      displayFormat="YYYY MM DD"
+      [min]="minDate"
+      [max]="maxDate"
+      [(ngModel)]="date"
+      name="dateField"
+      #dateField="ngModel"></ion-datetime>
+    </ion-item>
+    <ion-button expand="block" type="submit">Ajouter</ion-button>
+  </form>
+</ion-content>
