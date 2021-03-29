@@ -9,6 +9,7 @@ import { ServeurResponse } from 'src/app/class/ServeurResponse/serveur-response'
 import { User } from 'src/app/class/user/user';
 import { environment } from 'src/environments/environment';
 import { ExpenseService } from '../expense/expense.service';
+import { MonthService } from '../month/month.service';
 import { UserService } from '../user/user.service';
 
 @Injectable({
@@ -19,7 +20,8 @@ export class AuthService {
   public userAsSubject : Subject<User> = new Subject<User>();
 
   constructor(private http : HttpClient,
-    private UserService : UserService) { }
+    private UserService : UserService,
+    private month : MonthService) { }
 
 
 
@@ -37,6 +39,7 @@ export class AuthService {
           if(alwaysLog){
             localStorage.setItem('user_password',this.getCryptedPass(password));
           }
+          this.month.fetchForDependance(this.loggedUser.getId(),'user');
           this.updateUser();
           return this.loggedUser;
         } else {
@@ -60,6 +63,7 @@ export class AuthService {
           this.updateUser();
           localStorage.setItem('access_token',value.result.newToken);
           localStorage.setItem('user_email',this.loggedUser.email);
+          this.month.fetchForDependance(this.loggedUser.getId(),'user');
           return this.loggedUser;
         } else {
           return new Error('Missing information');
@@ -99,6 +103,8 @@ export class AuthService {
       map(value =>{
         if(value.status==='success'){
           localStorage.removeItem('access_token');
+          localStorage.removeItem('user_password');
+          localStorage.removeItem('user_email');
           this.loggedUser = null;
           this.updateUser();
           return true;
@@ -112,7 +118,6 @@ export class AuthService {
   public signin(user : User,pass : string) : Observable<User | Error>{
     let body = this.UserService.objectToJsonConvert(user);
     body.password = this.getCryptedPass(pass);
-    console.log(body);
     return this.http.post<ServeurResponse>(
       environment.baseUrl.base+environment.baseUrl.auth+`/signin`,
       body

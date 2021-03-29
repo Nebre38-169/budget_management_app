@@ -5,7 +5,7 @@
 export const environment = {
   production: false,
   baseUrl : {
-    base : 'http://localhost:3000',
+    base : 'http://budget-management-nebre.herokuapp.com',
     expense : '/expense',
     user : '/user',
     auth : '/connexion',

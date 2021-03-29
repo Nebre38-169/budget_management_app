@@ -25,11 +25,10 @@ export class LoginPage implements OnInit {
     .subscribe(value =>{
       if(value instanceof Error){
         this.error = true;
-        this.email = "";
         this.password = "";
       } else {
         this.error = false;
-        this.router.navigateRoot('/home');
+        this.router.navigateRoot('');
       }
     })
   }

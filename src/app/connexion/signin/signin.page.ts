@@ -37,7 +37,7 @@ export class SigninPage implements OnInit {
                 if(value instanceof Error){
                   console.log(value);
                 } else {
-                  this.router.navigateRoot('/home');
+                  this.router.navigateRoot('');
                 }
               }
             )

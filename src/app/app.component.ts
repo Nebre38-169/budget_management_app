@@ -17,18 +17,19 @@ export class AppComponent implements OnInit {
       this.router.navigateRoot('');
     } else {
       this.auth.autologin().subscribe(value =>{
-        console.log(value);
+        //console.log(value);
         if(value instanceof Error){
           this.auth.autoLoginWithPass().subscribe(
             value =>{
+              //console.log(value);
               if(value instanceof Error){
                 this.router.navigateRoot('/connexion/login');
+              } else {
+                this.router.navigateRoot('');
               }
-              this.router.navigateRoot('');
             }
           )
         } else {
-
           this.router.navigateRoot('');
         }
       })

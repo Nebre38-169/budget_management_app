@@ -21,14 +21,12 @@ export class DisplayAllMonthComponent implements OnInit {
     private modalCtrl : ModalController
   ) { }
 
-  async ngOnInit() {
+  ngOnInit() {
     this.monthSub = this.month.objectListObs.subscribe(
       value =>{
-        console.log(value);
         this.monthList = value;
       }
-    )
-    this.month.fetchForDependance(await this.auth.getId(),'user');
+    )  
   }
 
   async onNewMonth(){
