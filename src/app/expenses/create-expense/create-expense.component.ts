@@ -26,6 +26,8 @@ export class CreateExpenseComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    console.log(this.maxDate);
+    console.log(this.minDate);
     if(this.editedExpense){
       this.name = this.editedExpense.name;
       this.date = `${this.editedExpense.date.getFullYear()}-${this.editedExpense.date.getMonth()+1}-${this.editedExpense.date.getDate()}`;

@@ -175,7 +175,6 @@ export class AuthService {
 
 
   public updateUser(){
-    console.log('user connected');
     this.userAsSubject.next(this.loggedUser);
   }
 

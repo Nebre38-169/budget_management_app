@@ -23,7 +23,6 @@ export class AppComponent implements OnInit {
   onLogout(){
     this.auth.logout(this.auth.getUser().getId())
     .subscribe(value =>{
-      console.log(value);
       this.router.navigateRoot('/connexion/login');
       this.closeMenu();
     })

@@ -3,6 +3,7 @@ import { ModalController } from '@ionic/angular';
 import { Expense } from 'src/app/class/expense/expense';
 import { AuthService } from 'src/app/service/auth/auth.service';
 import { ExpenseService } from 'src/app/service/expense/expense.service';
+import { CreateExpenseComponent } from '../create-expense/create-expense.component';
 
 @Component({
   selector: 'app-one-expense',
@@ -12,6 +13,8 @@ import { ExpenseService } from 'src/app/service/expense/expense.service';
 export class OneExpenseComponent implements OnInit {
   @Input() expenseOBJ : Expense;
   @Input() monthId : number;
+  @Input() maxDate : string;
+  @Input() minDate : string;
 
   constructor(
     private auth : AuthService,
@@ -29,6 +32,19 @@ export class OneExpenseComponent implements OnInit {
   }
 
   async onEdit(){
-    
+    let modal = await this.modalCtrl.create({
+      component : CreateExpenseComponent,
+      componentProps : {
+        editedExpense : this.expenseOBJ,
+        monthId : this.monthId,
+        maxDate : this.maxDate,
+        minDate : this.minDate
+      }
+    })
+    await modal.present();
+    const { data } = await modal.onWillDismiss();
+    if(!data.dismissed){
+      this.expense.fetchForDependance(this.monthId,'month');
+    }
   }
 }

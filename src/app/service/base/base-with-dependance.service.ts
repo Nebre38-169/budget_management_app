@@ -45,4 +45,17 @@ export abstract class BaseWithDependanceService<T extends Base> extends BaseServ
       })
     )
   }
+
+  public deleteByDependance(id : number, dependance : string) : Observable<boolean | Error>{
+    return this.http.delete<ServeurResponse>(this.baseUrl+`/${dependance}/${id}`)
+    .pipe(
+      map(value =>{
+        if(value.status==='success'){
+          return true;
+        } else {
+          return new Error(value.result);
+        }
+      })
+    )
+  }
 }

@@ -13,9 +13,9 @@
   <ion-list *ngIf="monthList && monthList.length>0">
     <app-month *ngFor="let month of monthList" [monthOBJ]="month"></app-month>
   </ion-list>
-  <ion-label *ngIf="!monthList || monthList.length<1">
-    Il n'y pas de dépense pour l'instant
-  </ion-label>
+  <ion-item *ngIf="!monthList || monthList.length<1">
+    <ion-label>Il n'y pas de mois pour l'instant</ion-label>
+  </ion-item>
 
   <ion-fab vertical="bottom" horizontal="end" slot="fixed">
     <ion-fab-button (click)="onNewMonth()">

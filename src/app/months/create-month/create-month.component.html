@@ -1,6 +1,7 @@
 <ion-header translucent>
   <ion-toolbar>
-    <ion-title>Nouveau mois</ion-title>
+    <ion-title *ngIf="!editedMonth">Nouveau mois</ion-title>
+    <ion-title *ngIf="editedMonth">Edition d'un mois</ion-title>
     <ion-buttons slot="end">
       <ion-button (click)="onDismiss()">
         <ion-icon name="close-outline"></ion-icon>

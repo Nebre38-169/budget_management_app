@@ -20,7 +20,7 @@
     </ion-card-content>
   </ion-card>
   <ion-list *ngIf="expenseList && expenseList.length>0">
-    <app-one-expense *ngFor="let exp of expenseList" [expenseOBJ]="exp" [monthId]="monthOBJ.getId()"></app-one-expense>
+    <app-one-expense *ngFor="let exp of expenseList" [expenseOBJ]="exp" [monthId]="monthOBJ.getId()" [maxDate]="maxDate" [minDate]="minDate"></app-one-expense>
   </ion-list>
   <ion-item *ngIf="!expenseList || expenseList.length<1">
     <ion-label>Il n'a pas de dépense pour ce mois ci</ion-label>

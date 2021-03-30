@@ -17,6 +17,8 @@ import { MonthService } from 'src/app/service/month/month.service';
 export class DisplayOneMonthComponent implements OnInit,OnDestroy {
   public monthOBJ : Month;
   public expenseList : Expense[];
+  public maxDate : string;
+  public minDate : string;
 
   private exenpseSub : Subscription;
   constructor(
@@ -32,25 +34,26 @@ export class DisplayOneMonthComponent implements OnInit,OnDestroy {
 
   ngOnInit() {
     let monthId = this.route.snapshot.params['id'];
-    console.log(monthId);
     this.month.getById(monthId)
     .subscribe(value =>{
       if(value instanceof Error){
         console.log(value);
       } else {
         this.monthOBJ = value;
+        this.exenpseSub = this.expense.objectListObs
+      .subscribe(value =>{
+        this.expenseList = value;
+        let total = 0;
+        for(let e of this.expenseList){
+          total+=e.amount;
+        }
+        total = Math.round(total*100)/100;
+        this.monthOBJ.total = total;
+        this.month.edit(this.monthOBJ).subscribe();
+        this.minDate = Month.getDateStr(this.monthOBJ.startDate);
+        this.maxDate = Month.getDateStr(this.monthOBJ.endDate);
+      })
       }
-    })
-    this.exenpseSub = this.expense.objectListObs
-    .subscribe(value =>{
-      this.expenseList = value;
-      let total = 0;
-      for(let e of this.expenseList){
-        total+=e.amount;
-      }
-      total = Math.round(total*100)/100;
-      this.monthOBJ.total = total;
-      this.month.edit(this.monthOBJ).subscribe();
     })
     this.expense.fetchForDependance(monthId,'month');
   }
@@ -71,9 +74,4 @@ export class DisplayOneMonthComponent implements OnInit,OnDestroy {
       this.expense.fetchForDependance(this.monthOBJ.getId(),'month');
     }
   }
-
-  onBack(){
-    
-  }
-
 }

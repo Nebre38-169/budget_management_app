@@ -114,7 +114,6 @@ export abstract class BaseService<T extends Base> {
   }
 
   protected update(){
-    console.log('updated object');
     this.objectListObs.next(this.objectList);
   }
 

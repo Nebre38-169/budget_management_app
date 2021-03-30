@@ -1,7 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { ModalController } from '@ionic/angular';
+import { ModalController, NavController } from '@ionic/angular';
 import { Month } from 'src/app/class/month/month';
 import { AuthService } from 'src/app/service/auth/auth.service';
+import { ExpenseService } from 'src/app/service/expense/expense.service';
 import { MonthService } from 'src/app/service/month/month.service';
 import { CreateMonthComponent } from '../create-month/create-month.component';
 
@@ -15,13 +16,19 @@ export class MonthComponent implements OnInit {
 
   constructor(private auth : AuthService,
     private modalCtrl : ModalController,
-    private month : MonthService) { }
+    private month : MonthService,
+    private expense : ExpenseService,
+    private router : NavController) { }
 
   ngOnInit() {}
 
   onDelete(){
     this.month.delete(this.monthOBJ.getId()).subscribe(
-      value => this.month.fetchForDependance(this.auth.getId(),'user')
+      value =>{
+        this.expense.deleteByDependance(this.monthOBJ.getId(),'month').subscribe();
+        this.month.fetchForDependance(this.auth.getId(),'user');
+        this.router.navigateRoot('');
+        }
     )
   }
 

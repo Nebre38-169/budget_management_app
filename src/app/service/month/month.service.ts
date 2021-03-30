@@ -16,7 +16,6 @@ export class MonthService extends BaseWithDependanceService<Month> {
    }
 
    public jsonToObjectConvert(info: any): Month {
-     console.log('Récuperation des mois');
     return new Month(
       parseInt(info.id),
       new Date(info.creationDate),
