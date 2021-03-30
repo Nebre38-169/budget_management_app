@@ -32,6 +32,7 @@ export class AuthService {
       {'email':email,'password' : this.getCryptedPass(password)}
     ).pipe(
       map(value =>{
+        console.log(value);
         if(value.status==='success'){
           this.loggedUser = this.UserService.jsonToObjectConvert(value.result.user);
           this.updateUser();
