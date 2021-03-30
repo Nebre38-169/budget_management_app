@@ -26,6 +26,7 @@ export class AuthService {
 
 
   public login(email : string, password : string, alwaysLog : boolean) : Observable<User | Error> {
+    console.log('trying to connect');
     return this.http.post<ServeurResponse>(
       environment.baseUrl.base+environment.baseUrl.auth+`/login`,
       {'email':email,'password' : this.getCryptedPass(password)}
