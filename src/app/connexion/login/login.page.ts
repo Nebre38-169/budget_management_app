@@ -18,6 +18,17 @@ export class LoginPage implements OnInit {
     private router : NavController) { }
 
   ngOnInit() {
+    this.auth.autologin().subscribe(value=>{
+      if(value instanceof Error){
+        this.auth.autoLoginWithPass().subscribe(value=>{
+          if(!(value instanceof Error)){
+            this.router.navigateRoot('');
+          }
+        })
+      } else {
+        this.router.navigateRoot('');
+      }
+    })
   }
 
   onLogin(){

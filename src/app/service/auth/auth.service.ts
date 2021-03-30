@@ -82,9 +82,9 @@ export class AuthService {
       map(value =>{
         if(value.status==='success'){
           this.loggedUser = this.UserService.jsonToObjectConvert(value.result.user);
-          this.updateUser();
           localStorage.setItem('access_token',value.result.token);
           localStorage.setItem('user_email',this.loggedUser.email);
+          this.month.fetchForDependance(this.loggedUser.getId(),'user');
           this.updateUser();
           return this.loggedUser;
         } else {
@@ -153,6 +153,10 @@ export class AuthService {
     )
   }
 
+  private logInInformation(){
+
+  }
+
   public getUser() : User {
     return this.loggedUser;
   }
@@ -171,6 +175,7 @@ export class AuthService {
 
 
   public updateUser(){
+    console.log('user connected');
     this.userAsSubject.next(this.loggedUser);
   }
 

@@ -24,6 +24,7 @@ export class DisplayAllMonthComponent implements OnInit {
   ngOnInit() {
     this.monthSub = this.month.objectListObs.subscribe(
       value =>{
+        console.log('mise à jour des mois');
         this.monthList = value;
       }
     )  

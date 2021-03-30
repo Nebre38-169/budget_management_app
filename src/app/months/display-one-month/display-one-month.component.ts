@@ -48,6 +48,7 @@ export class DisplayOneMonthComponent implements OnInit,OnDestroy {
       for(let e of this.expenseList){
         total+=e.amount;
       }
+      total = Math.round(total*100)/100;
       this.monthOBJ.total = total;
       this.month.edit(this.monthOBJ).subscribe();
     })
@@ -69,6 +70,10 @@ export class DisplayOneMonthComponent implements OnInit,OnDestroy {
     if(!data.dismissed){
       this.expense.fetchForDependance(this.monthOBJ.getId(),'month');
     }
+  }
+
+  onBack(){
+    
   }
 
 }
