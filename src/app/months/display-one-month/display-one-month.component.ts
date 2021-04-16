@@ -16,6 +16,7 @@ import { MonthService } from 'src/app/service/month/month.service';
 })
 export class DisplayOneMonthComponent implements OnInit,OnDestroy {
   public monthOBJ : Month;
+  public restant : number;
   public expenseList : Expense[];
   public maxDate : string;
   public minDate : string;
@@ -49,6 +50,7 @@ export class DisplayOneMonthComponent implements OnInit,OnDestroy {
         }
         total = Math.round(total*100)/100;
         this.monthOBJ.total = total;
+        this.restant = Math.round((this.monthOBJ.budget-this.monthOBJ.total)*100)/100;
         this.month.edit(this.monthOBJ).subscribe();
         this.minDate = Month.getDateStr(this.monthOBJ.startDate);
         this.maxDate = Month.getDateStr(this.monthOBJ.endDate);
